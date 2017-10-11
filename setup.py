@@ -1,5 +1,7 @@
 """Setup for drewtils project."""
 
+import os
+
 try:
     from setuptools import setup
     setupTools = True
@@ -11,12 +13,15 @@ _classifiers = [
     'License :: OSI Approved :: MIT License',
 ]
 
-with open('pip_readme.rst') as readme:
-    long_description = readme.read()
+if os.path.exists('pip_readme.rst'):
+    with open('pip_readme.rst') as readme:
+        long_description = readme.read()
+else:
+    long_description = ''
 
 setupArgs = {
     'name': 'drewtils',
-    'version': "0.1.7",
+    'version': "0.1.8",
     'packages': ['drewtils'],
     'author': 'Andrew Johnson',
     'author_email': '1drew.e.johnson@gmail.com',

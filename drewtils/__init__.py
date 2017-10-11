@@ -1,3 +1,3 @@
 from drewtils import parsers
 
-__versions__ = '0.1.7'
+__versions__ = '0.1.8'

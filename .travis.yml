@@ -6,6 +6,6 @@ python:
 
 # install
 install:
-  - python setup.py install
+  - pip install drewtils
 # run
 script: pytest
