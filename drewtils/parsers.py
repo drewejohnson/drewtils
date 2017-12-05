@@ -1,7 +1,10 @@
 # THIS FILE IS PROVIDED AS IS UNDER THE CONDITIONS DETAILED IN LICENSE
+# COPYRIGHT ANDREW JOHNSON, 2017
 """Classes for simple file processing"""
 
 import re
+
+__all__ = ['KeywordParser', 'PatternReader']
 
 
 class _TextProcessor(object):
@@ -40,7 +43,8 @@ class _TextProcessor(object):
 
 
 class KeywordParser(_TextProcessor):
-    r"""Class for parsing a file for chunks separated by various keywords.
+    r"""
+    Class for parsing a file for chunks separated by various keywords.
 
     Parameters
     ----------
@@ -69,7 +73,8 @@ class KeywordParser(_TextProcessor):
         self._end = eof
 
     def yieldChunks(self):
-        """Return each chunk of text as a generator.
+        """
+        Return each chunk of text as a generator.
 
         Yields
         ------
@@ -83,14 +88,15 @@ class KeywordParser(_TextProcessor):
                 if chunk:
                     yield chunk
                 chunk = ([self.line] if self._match(self._startMatch)
-                         else [])
+                else [])
             elif chunk:
                 chunk.append(self.line)
         if chunk:
             yield chunk
 
     def parse(self):
-        """Parse the file and return a list of keyword blocks.
+        """
+        Parse the file and return a list of keyword blocks.
 
         Returns
         -------
@@ -106,7 +112,8 @@ class KeywordParser(_TextProcessor):
 
 
 class PatternReader(_TextProcessor):
-    """Class that can read over a file looking for patterns.
+    """
+    Class that can read over a file looking for patterns.
 
     Parameters
     ----------
@@ -125,17 +132,19 @@ class PatternReader(_TextProcessor):
         _TextProcessor.__init__(self, filePath)
         self.match = None
 
-    def searchForString(self, string):
-        """Return true if the string is found.
+    def searchFor(self, pattern):
+        """
+        Return true if the pattern is found.
 
         Parameters
         ----------
+        pattern: str or compiled regular expression
+
+        Returns
+        -------
+        bool: True if the pattern was found
 
         """
-        return self.searchForPattern(string)
-
-    def searchForPattern(self, pattern):
-        """Return true if the pattern is found."""
         self._checkOpen()
         regexp = re.compile(pattern) if isinstance(pattern, str) else pattern
         while self._step():
@@ -154,10 +163,10 @@ class PatternReader(_TextProcessor):
             Seek through the file and yield all match groups for lines that
             contain this patten.
 
-        Returns
-        -------
+        Yields
+        ------
         sequential match groups
 
         """
-        while self.searchForPattern(pattern):
+        while self.searchFor(pattern):
             yield self.match

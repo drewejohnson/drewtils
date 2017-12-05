@@ -13,22 +13,22 @@ _classifiers = [
     'License :: OSI Approved :: MIT License',
 ]
 
-if os.path.exists('pip_readme.rst'):
-    with open('pip_readme.rst') as readme:
+if os.path.exists('README.rst'):
+    with open('README.rst') as readme:
         long_description = readme.read()
 else:
     long_description = ''
 
 setupArgs = {
     'name': 'drewtils',
-    'version': "0.1.8",
+    'version': "0.1.9",
     'packages': ['drewtils'],
     'author': 'Andrew Johnson',
-    'author_email': '1drew.e.johnson@gmail.com',
+    'author_email': 'drewej@protonmail.com',
     'description': 'Simple tools to make testing and file parsing easier',
     'long_description': long_description,
     'license': 'MIT',
-    'keywords': 'parsing files unittest testing',
+    'keywords': 'parsing files',
     'url': 'https://github.com/drewejohnson/drewtils',
     'classifiers': _classifiers,
 }

@@ -7,5 +7,6 @@ Class Definitions
    :caption: Contents
 
    parsers.rst
+   df.rst
 
 * :ref:`modindex`

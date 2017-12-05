@@ -75,11 +75,11 @@ class PatternReaderTester(unittest.TestCase):
     def test_searchAndSeek(self):
         """Verify the sequential processor can search and seek to the top."""
         with self.parser as parser:
-            self.assertTrue(parser.searchForString('compr'))
-            self.assertFalse(parser.searchForString('nothing matches this'))
+            self.assertTrue(parser.searchFor('compr'))
+            self.assertFalse(parser.searchFor('nothing matches this'))
             self.parser.seekToTop()
-            self.assertTrue(parser.searchForString('compr'))
-            self.assertTrue(parser.searchForPattern(self.regexp))
+            self.assertTrue(parser.searchFor('compr'))
+            self.assertTrue(parser.searchFor(self.regexp))
 
     def test_yieldMatches(self):
         expectedMatches = (

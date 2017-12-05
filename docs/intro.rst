@@ -2,6 +2,15 @@
 Intro
 =====
 
+.. image:: https://travis-ci.org/drewejohnson/drewtils.svg?branch=master
+    :target: https://travis-ci.org/drewejohnson/drewtils
+.. image:: https://badge.fury.io/py/drewtils.svg
+    :target: http://badge.fury.io/py/drewtils
+.. image:: https://readthedocs.org/projects/drewtils/badge/?version=latest
+    :target: http://drewtils.readthedocs.io/en/latest/
+.. image:: https://api.codacy.com/project/badge/Grade/043016e2c680488a8972a9ccd437cdc1
+    :target: https://www.codacy.com/app/drewejohnson/drewtils?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=drewejohnson/drewtils&amp;utm_campaign=Badge_Grade
+
 Installation
 ============
 
