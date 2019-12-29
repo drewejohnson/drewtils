@@ -2,15 +2,17 @@
 Parsers
 =======
 
+.. currentmodule:: drewtils
+
 Classes for simple file processing
 
 Keyword parser
 --------------
 
-.. autoclass:: drewtils.parsers.KeywordParser
+.. autoclass:: KeywordParser
 
 PatternReader
 -------------
 
-.. autoclass:: drewtils.parsers.PatternReader
+.. autoclass:: PatternReader
 

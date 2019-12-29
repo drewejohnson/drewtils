@@ -2,7 +2,7 @@
 # COPYRIGHT ANDREW JOHNSON, 2017-2019
 import operator
 
-from drewtils import parsers
+from drewtils.parsers import KeywordParser, PatternReader
 
 __versions__ = '0.1.9'
 
