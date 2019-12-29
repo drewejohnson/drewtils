@@ -65,10 +65,25 @@ class KeywordParser(_TextProcessor):
         """
         Return each chunk of text as a generator.
 
+        .. deprecated:: 0.2.0
+            Use :meth:`__iter__` instead
+
         Yields
         ------
-        list
-            The next chunk in the file.
+        list of str
+            Successive chunks of text
+
+        """
+        return iter(self)
+
+    def __iter__(self):
+        """Yield all chunks in the stream
+
+        Yields
+        ------
+        list of str
+            Successive chunks of text
+
         """
         chunk = []
         while self._step() != self._end:
@@ -91,7 +106,7 @@ class KeywordParser(_TextProcessor):
             List of key word argument chunks.
 
         """
-        return list(self.yieldChunks())
+        return list(self)
 
 
 class PatternReader(_TextProcessor):

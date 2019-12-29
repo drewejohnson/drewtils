@@ -32,7 +32,7 @@ class KwargParseTester(unittest.TestCase):
 
     def test_yieldChunks(self):
         """Verify that the chunk generator is functional."""
-        for index, actual in enumerate(self.parser.yieldChunks()):
+        for index, actual in enumerate(self.parser):
             self.assertListEqual(actual, self.expectedChunks[index])
 
 
