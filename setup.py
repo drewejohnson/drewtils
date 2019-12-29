@@ -1,7 +1,5 @@
 """Setup for drewtils project."""
 
-import os
-
 try:
     from setuptools import setup
     setupTools = True
@@ -13,11 +11,8 @@ _classifiers = [
     'License :: OSI Approved :: MIT License',
 ]
 
-if os.path.exists('README.rst'):
-    with open('README.rst') as readme:
-        long_description = readme.read()
-else:
-    long_description = ''
+with open('README.rst') as readme:
+    long_description = readme.read()
 
 setupArgs = {
     'name': 'drewtils',
