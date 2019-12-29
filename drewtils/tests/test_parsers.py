@@ -4,23 +4,32 @@
 import io
 import re
 import unittest
+import os
 
 from drewtils.parsers import KeywordParser, PatternReader
 
 
-class KwargParseTester(unittest.TestCase):
+class KwargTestHelper:
+    content = (
+        "// This a comment line\nset goodrun True\n"
+        "multiline line0\nline1\nline2\n//Comment inside\n"
+        "multiline\nother1\nother2\nset done True\n")
+    expectedChunks = [
+        ['set goodrun True\n', ],
+        ['multiline line0\n', 'line1\n', 'line2\n'],
+        ['multiline\n', 'other1\n', 'other2\n'],
+        ['set done True\n']]
+    keys = ["set", "multiline"]
+    separators = ["\n", "//"]
+
+
+class KwargParseTester(KwargTestHelper, unittest.TestCase):
+
     @classmethod
     def setUpClass(cls):
-        cls.stream = io.StringIO(
-            "// This a comment line\nset goodrun True\n"
-            "multiline line0\nline1\nline2\n//Comment inside\n"
-            "multiline\nother1\nother2\nset done True\n")
-        cls.expectedChunks = [['set goodrun True\n', ],
-                              ['multiline line0\n', 'line1\n', 'line2\n'],
-                              ['multiline\n', 'other1\n', 'other2\n'],
-                              ['set done True\n']]
-        cls.parser = KeywordParser(cls.stream, keys=['set', 'multiline'],
-                                   separators=['\n', '//'])
+        cls.stream = io.StringIO(cls.content)
+        cls.parser = KeywordParser(cls.stream, keys=cls.keys,
+                                   separators=cls.separators)
 
     def setUp(self):
         self.stream.seek(0)
@@ -34,6 +43,25 @@ class KwargParseTester(unittest.TestCase):
         """Verify that the chunk generator is functional."""
         for index, actual in enumerate(self.parser):
             self.assertListEqual(actual, self.expectedChunks[index])
+
+
+class FileKwargParseTester(KwargTestHelper, unittest.TestCase):
+    filepath = "FileKwargParseTester.txt"
+
+    @classmethod
+    def setUpClass(cls):
+        with open(cls.filepath, "w") as stream:
+            stream.write(cls.content)
+
+    @classmethod
+    def tearDownClass(cls):
+        os.remove(cls.filepath)
+
+    def test_fileIteration(self):
+        """Verify the file based iteration can be obtained"""
+        for ix, chunk in enumerate(KeywordParser.iterateOverFile(
+                self.filepath, keys=self.keys, separators=self.separators)):
+            self.assertListEqual(chunk, self.expectedChunks[ix])
 
 
 class PatternReaderTester(unittest.TestCase):

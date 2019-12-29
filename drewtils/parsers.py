@@ -108,6 +108,29 @@ class KeywordParser(_TextProcessor):
         """
         return list(self)
 
+    @classmethod
+    def iterateOverFile(cls, filePath, *args, **kwargs):
+        """Iterate over all chunks in the file
+
+        Additional arguments will be passed to the constructor,
+        e.g. ``keys`` and ``separators``
+
+        Parameters
+        ----------
+        filepath : str
+            Name of file to be opened.
+
+        Yields
+        ------
+        list of str
+            Chunks of text bounded by input arguments
+
+        """
+        with open(filePath, "r") as stream:
+            parser = cls(stream, *args, **kwargs)
+            for item in parser:
+                yield item
+
 
 class PatternReader(_TextProcessor):
     """
