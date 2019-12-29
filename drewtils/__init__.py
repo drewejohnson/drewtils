@@ -4,7 +4,7 @@ import operator
 
 from drewtils.parsers import KeywordParser, PatternReader
 
-__versions__ = '0.1.9'
+__versions__ = '0.2.0rc0'
 
 
 def dfSubset(data, where):

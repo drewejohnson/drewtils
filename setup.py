@@ -16,7 +16,7 @@ with open('README.rst') as readme:
 
 setupArgs = {
     'name': 'drewtils',
-    'version': "0.1.9",
+    'version': "0.2.0rc0",
     'packages': ['drewtils'],
     'author': 'Andrew Johnson',
     'author_email': 'drewej@protonmail.com',
