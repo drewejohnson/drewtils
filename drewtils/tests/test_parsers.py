@@ -1,7 +1,7 @@
 # THIS FILE IS PROVIDED AS IS UNDER THE CONDITIONS DETAILED IN LICENSE
 """Test the parser utilities"""
 
-import os
+import io
 import re
 import unittest
 
@@ -11,34 +11,29 @@ from drewtils.parsers import KeywordParser, PatternReader
 class KwargParseTester(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.path = 'kwargtest.txt'
-        dummyInput = ("// This a comment line\nset goodrun True\n"
-                      "multiline line0\nline1\nline2\n//Comment inside\n"
-                      "multiline\nother1\nother2\nset done True\n")
+        cls.stream = io.StringIO(
+            "// This a comment line\nset goodrun True\n"
+            "multiline line0\nline1\nline2\n//Comment inside\n"
+            "multiline\nother1\nother2\nset done True\n")
         cls.expectedChunks = [['set goodrun True\n', ],
                               ['multiline line0\n', 'line1\n', 'line2\n'],
                               ['multiline\n', 'other1\n', 'other2\n'],
                               ['set done True\n']]
-        with open(cls.path, 'w') as dummyFile:
-            dummyFile.write(dummyInput)
-        cls.parser = KeywordParser(cls.path, keys=['set', 'multiline'],
+        cls.parser = KeywordParser(cls.stream, keys=['set', 'multiline'],
                                    separators=['\n', '//'])
 
-    @classmethod
-    def tearDownClass(cls):
-        os.remove(cls.path)
+    def setUp(self):
+        self.stream.seek(0)
 
     def test_parse(self):
         """Verify that the keyword parser is functional."""
-        with self.parser as parser:
-            actual = parser.parse()
+        actual = self.parser.parse()
         self.assertListEqual(actual, self.expectedChunks)
 
     def test_yieldChunks(self):
         """Verify that the chunk generator is functional."""
-        with self.parser as parser:
-            for index, actual in enumerate(parser.yieldChunks()):
-                self.assertListEqual(actual, self.expectedChunks[index])
+        for index, actual in enumerate(self.parser.yieldChunks()):
+            self.assertListEqual(actual, self.expectedChunks[index])
 
 
 class PatternReaderTester(unittest.TestCase):
@@ -46,7 +41,7 @@ class PatternReaderTester(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        lines = """22:20:02:INFO    :root : Initializing ---------
+        cls.stream = io.StringIO("""22:20:02:INFO    :root : Initializing ---------
 22:20:10:DEBUG   :prepr: Prepping files to be uploaded
 22:20:14:WARN    :prepr: FOUND 4 FILES, NOT 6 SPECIFIED, PROCEEDING
 22:20:20:DEBUG   :compr: compressing 4 files
@@ -61,25 +56,21 @@ class PatternReaderTester(unittest.TestCase):
 22:25:56:INFO    :inspt: Likely source of error - keyboard interupt
 22:26:23:INFO    :closr: Exiting processes ---------
 22:26:41:INFO    :root : Process complete
-22:26:42:DEBUG   :root : Error code: 1"""
-        cls.parser = PatternReader('patterns.txt')
-        with open(cls.parser.path, 'w') as output:
-            output.write(lines)
+22:26:42:DEBUG   :root : Error code: 1""")
+        cls.parser = PatternReader(cls.stream)
         cls.regexp = re.compile(
             r'(\d{2}:\d{2}:\d{2}):(WARN|CRITICAL)\s*:([a-z]{5}):\s*(.*)')
 
-    @classmethod
-    def tearDownClass(cls):
-        os.remove(cls.parser.path)
+    def setUp(self):
+        self.stream.seek(0)
 
     def test_searchAndSeek(self):
         """Verify the sequential processor can search and seek to the top."""
-        with self.parser as parser:
-            self.assertTrue(parser.searchFor('compr'))
-            self.assertFalse(parser.searchFor('nothing matches this'))
-            self.parser.seekToTop()
-            self.assertTrue(parser.searchFor('compr'))
-            self.assertTrue(parser.searchFor(self.regexp))
+        self.assertTrue(self.parser.searchFor('compr'))
+        self.assertFalse(self.parser.searchFor('nothing matches this'))
+        self.stream.seek(0)
+        self.assertTrue(self.parser.searchFor('compr'))
+        self.assertTrue(self.parser.searchFor(self.regexp))
 
     def test_yieldMatches(self):
         expectedMatches = (
@@ -88,9 +79,8 @@ class PatternReaderTester(unittest.TestCase):
             ('22:24:40', 'CRITICAL', 'upldr',
              'LOST CONNECTION. ATTEMPTING CLEAN FAIL')
         )
-        with self.parser as parser:
-            for indx, match in enumerate(parser.yieldMatches(self.regexp)):
-                self.assertTupleEqual(expectedMatches[indx], match.groups())
+        for indx, match in enumerate(self.parser.yieldMatches(self.regexp)):
+            self.assertTupleEqual(expectedMatches[indx], match.groups())
 
 
 if __name__ == '__main__':
