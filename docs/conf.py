@@ -37,7 +37,7 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.intersphinx',
               'sphinx.ext.coverage']
 
-autodoc_default_flags = ['members', ]
+autodoc_default_options = {"members": True}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -53,7 +53,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'drewtils'
-copyright = '2017, Andrew Johnson'
+copyright = '2017-2019, Andrew Johnson'
 author = 'Andrew Johnson'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -154,5 +154,7 @@ texinfo_documents = [
      'Miscellaneous'),
 ]
 
-intersphinx_mapping = {'python': ('https://docs.python.org/3.5', None),
-                       'pandas': ('https://pandas.pydata.org/pandas-docs/stable/', None)}
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3.5', None),
+    'pandas': ('https://pandas.pydata.org/pandas-docs/stable/', None),
+}
