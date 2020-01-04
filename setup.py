@@ -16,7 +16,7 @@ with open('README.rst') as readme:
 
 setupArgs = {
     'name': 'drewtils',
-    'version': "0.2.0rc0",
+    'version': "0.2.0",
     'packages': ['drewtils'],
     'author': 'Andrew Johnson',
     'author_email': 'drewej@protonmail.com',
@@ -31,7 +31,7 @@ setupArgs = {
 if setupTools:
     setupArgs.update(**{
         'test_suite': 'drewtils.tests',
-        'python_requires': '>=2.7,!=3.1,!=3.2,!=3.3,!=3.4'
+        'python_requires': '>=3.5'
     })
 
 setup(**setupArgs)

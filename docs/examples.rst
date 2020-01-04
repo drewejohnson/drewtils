@@ -146,6 +146,5 @@ A great resource for building and testing python regular expressions is
 
 See Also
 --------
-* `Python 2.7 - regular expression library <https://docs.python.org/2/library/re.html>`_
-* `Pyhton 3.6 - regular expression library <https://docs.python.org/3.6/library/re.html>`_
+* `Python 3 - regular expression library <https://docs.python.org/3/library/re.html>`_
 
